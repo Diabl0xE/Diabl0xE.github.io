@@ -3,160 +3,147 @@
 <head>
   <meta charset="UTF-8">
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
-  <title>Diablo CTF Writeups</title>
+  <title>Diablo Retro Linux Desktop</title>
   <style>
-    /* Matrix Background */
-    canvas {
-      position: fixed;
-      top: 0; left: 0;
-      width: 100%; height: 100%;
-      z-index: -1;
-      background: black;
-    }
-
     body {
       margin: 0;
-      font-family: "Courier New", monospace;
-      color: #00fff9;
-      text-shadow: 0 0 5px #00fff9;
-    }
-
-    .terminal {
-      max-width: 900px;
-      margin: 80px auto;
-      background: rgba(10, 10, 20, 0.85);
-      border: 2px solid #ff00ff;
-      border-radius: 10px;
-      padding: 30px;
-      box-shadow: 0 0 30px #ff00ff, 0 0 60px #00fff9;
-    }
-
-    /* Glitch Title */
-    h1 {
-      font-size: 32px;
-      color: #ff00ff;
-      text-align: center;
-      position: relative;
-      animation: glitch 1s infinite;
-    }
-
-    @keyframes glitch {
-      0% { text-shadow: 2px 0 red, -2px 0 cyan; }
-      20% { text-shadow: -2px 0 lime, 2px 0 blue; }
-      40% { text-shadow: 2px 2px magenta, -2px -2px yellow; }
-      60% { text-shadow: -2px 2px cyan, 2px -2px lime; }
-      100% { text-shadow: 2px 0 red, -2px 0 cyan; }
-    }
-
-    /* Typing intro */
-    .intro {
-      font-size: 16px;
-      border-right: 2px solid #00fff9;
-      white-space: nowrap;
+      background: #111;
+      font-family: monospace;
+      color: #00ff00;
       overflow: hidden;
-      width: 0;
-      animation: typing 4s steps(40, end) forwards, blink 0.8s infinite;
     }
 
-    @keyframes typing {
-      from { width: 0 }
-      to { width: 100% }
+    /* Top bar */
+    .taskbar {
+      position: fixed;
+      top: 0;
+      left: 0;
+      width: 100%;
+      height: 25px;
+      background: #222;
+      color: #00ff00;
+      display: flex;
+      justify-content: space-between;
+      align-items: center;
+      padding: 0 10px;
+      font-size: 14px;
+      border-bottom: 2px solid #00ff00;
     }
 
-    @keyframes blink {
-      50% { border-color: transparent }
+    .taskbar .title {
+      font-weight: bold;
     }
 
-    /* Writeups list */
-    h2 {
-      color: #00fff9;
-      text-shadow: 0 0 10px #00fff9;
-      margin-top: 20px;
+    /* Window */
+    .window {
+      position: absolute;
+      top: 60px;
+      left: 50px;
+      width: 500px;
+      background: #000;
+      border: 2px solid #00ff00;
+      box-shadow: 3px 3px 15px #000;
     }
 
-    ul {
-      list-style: none;
-      padding-left: 0;
+    .window-header {
+      background: #222;
+      color: #00ff00;
+      padding: 5px;
+      cursor: move;
+      border-bottom: 2px solid #00ff00;
+      display: flex;
+      justify-content: space-between;
     }
 
-    li::before {
-      content: ">> ";
-      color: #ff00ff;
+    .window-header .buttons {
+      display: flex;
+      gap: 5px;
+    }
+
+    .btn {
+      width: 12px;
+      height: 12px;
+      border-radius: 50%;
+      display: inline-block;
+    }
+    .btn.red { background: red; }
+    .btn.yellow { background: yellow; }
+    .btn.green { background: lime; }
+
+    .window-content {
+      padding: 15px;
+      height: 300px;
+      overflow-y: auto;
+      background: #000;
     }
 
     a {
-      color: #00fff9;
+      color: cyan;
       text-decoration: none;
-      transition: 0.2s;
     }
-
     a:hover {
-      color: #ff00ff;
-      text-shadow: 0 0 10px #ff00ff;
-    }
-
-    footer {
-      margin-top: 30px;
-      text-align: center;
-      font-size: 12px;
-      color: #888;
+      color: #ff0000;
     }
   </style>
 </head>
 <body>
-  <!-- Matrix background -->
-  <canvas id="matrix"></canvas>
+  <!-- Taskbar -->
+  <div class="taskbar">
+    <div class="title">[ Diablo@LinuxBox ]</div>
+    <div class="clock" id="clock"></div>
+  </div>
 
-  <div class="terminal">
-    <h1>[ ACCESS GRANTED :: WELCOME DIABLO ]</h1>
-    <p class="intro">Initializing cyberpunk environment... Secure channel established.</p>
-    <hr>
-    <h2>CTF Writeups</h2>
-    <ul>
-      <li><a href="writeups/htb_machine1.html">HTB - Machine 1</a></li>
-      <li><a href="writeups/pg_lab1.html">Proving Grounds - Lab 1</a></li>
-      <li><a href="writeups/custom_ctf.html">Custom CTF - Web Exploit</a></li>
-    </ul>
-    <hr>
-    <footer>
-      &copy; 2025 Diablo | Cyberpunk Hacker Log | [Encrypted]
-    </footer>
+  <!-- Terminal window -->
+  <div class="window" id="terminal">
+    <div class="window-header">
+      <span>Terminal - CTF Writeups</span>
+      <div class="buttons">
+        <span class="btn red"></span>
+        <span class="btn yellow"></span>
+        <span class="btn green"></span>
+      </div>
+    </div>
+    <div class="window-content">
+      <pre>
+Welcome to Diablo’s Linux workstation.
+Type 'ls' to view writeups.
+      </pre>
+      <ul>
+        <li><a href="writeups/htb_machine1.html">HTB - Machine 1</a></li>
+        <li><a href="writeups/pg_lab1.html">Proving Grounds - Lab 1</a></li>
+        <li><a href="writeups/custom_ctf.html">Custom CTF - Web Exploit</a></li>
+      </ul>
+    </div>
   </div>
 
   <script>
-    // Matrix Background Effect
-    const canvas = document.getElementById("matrix");
-    const ctx = canvas.getContext("2d");
-
-    canvas.height = window.innerHeight;
-    canvas.width = window.innerWidth;
-
-    const letters = "アカサタナハマヤラワ0123456789$#*+";
-    const fontSize = 16;
-    const columns = canvas.width / fontSize;
-
-    const drops = [];
-    for(let x = 0; x < columns; x++) drops[x] = 1;
-
-    function draw() {
-      ctx.fillStyle = "rgba(0, 0, 0, 0.05)";
-      ctx.fillRect(0, 0, canvas.width, canvas.height);
-
-      ctx.fillStyle = "#00fff9";
-      ctx.font = fontSize + "px monospace";
-
-      for(let i = 0; i < drops.length; i++) {
-        const text = letters.charAt(Math.floor(Math.random() * letters.length));
-        ctx.fillText(text, i * fontSize, drops[i] * fontSize);
-
-        if(drops[i] * fontSize > canvas.height && Math.random() > 0.975) {
-          drops[i] = 0;
-        }
-        drops[i]++;
-      }
+    // Clock updater
+    function updateClock() {
+      const now = new Date();
+      document.getElementById("clock").innerText =
+        now.toLocaleDateString() + " " + now.toLocaleTimeString();
     }
+    setInterval(updateClock, 1000);
+    updateClock();
 
-    setInterval(draw, 35);
+    // Drag window
+    const win = document.getElementById("terminal");
+    const header = win.querySelector(".window-header");
+    let offsetX, offsetY, isDown = false;
+
+    header.addEventListener("mousedown", e => {
+      isDown = true;
+      offsetX = win.offsetLeft - e.clientX;
+      offsetY = win.offsetTop - e.clientY;
+    });
+
+    document.addEventListener("mouseup", () => isDown = false);
+    document.addEventListener("mousemove", e => {
+      if (isDown) {
+        win.style.left = e.clientX + offsetX + "px";
+        win.style.top = e.clientY + offsetY + "px";
+      }
+    });
   </script>
 </body>
 </html>
