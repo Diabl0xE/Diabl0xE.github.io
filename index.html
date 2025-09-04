@@ -5,47 +5,73 @@
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
   <title>Diablo CTF Writeups</title>
   <style>
+    /* Matrix Background */
+    canvas {
+      position: fixed;
+      top: 0; left: 0;
+      width: 100%; height: 100%;
+      z-index: -1;
+      background: black;
+    }
+
     body {
       margin: 0;
-      padding: 0;
-      background: radial-gradient(circle at center, #0a0a0a 0%, #000 100%);
-      color: #f0f0f0;
       font-family: "Courier New", monospace;
-      overflow-x: hidden;
+      color: #00fff9;
+      text-shadow: 0 0 5px #00fff9;
     }
 
     .terminal {
+      max-width: 900px;
+      margin: 80px auto;
+      background: rgba(10, 10, 20, 0.85);
       border: 2px solid #ff00ff;
       border-radius: 10px;
-      padding: 25px;
+      padding: 30px;
       box-shadow: 0 0 30px #ff00ff, 0 0 60px #00fff9;
-      max-width: 850px;
-      margin: 50px auto;
-      background: rgba(15, 15, 30, 0.9);
     }
 
+    /* Glitch Title */
     h1 {
-      font-size: 30px;
-      background: linear-gradient(90deg, #ff00ff, #00fff9);
-      -webkit-background-clip: text;
-      -webkit-text-fill-color: transparent;
-      text-shadow: 0 0 15px #ff00ff;
-    }
-
-    .neon-text {
+      font-size: 32px;
       color: #ff00ff;
-      text-shadow: 0 0 10px #ff00ff, 0 0 20px #00fff9;
+      text-align: center;
+      position: relative;
+      animation: glitch 1s infinite;
     }
 
-    a {
+    @keyframes glitch {
+      0% { text-shadow: 2px 0 red, -2px 0 cyan; }
+      20% { text-shadow: -2px 0 lime, 2px 0 blue; }
+      40% { text-shadow: 2px 2px magenta, -2px -2px yellow; }
+      60% { text-shadow: -2px 2px cyan, 2px -2px lime; }
+      100% { text-shadow: 2px 0 red, -2px 0 cyan; }
+    }
+
+    /* Typing intro */
+    .intro {
+      font-size: 16px;
+      border-right: 2px solid #00fff9;
+      white-space: nowrap;
+      overflow: hidden;
+      width: 0;
+      animation: typing 4s steps(40, end) forwards, blink 0.8s infinite;
+    }
+
+    @keyframes typing {
+      from { width: 0 }
+      to { width: 100% }
+    }
+
+    @keyframes blink {
+      50% { border-color: transparent }
+    }
+
+    /* Writeups list */
+    h2 {
       color: #00fff9;
-      text-decoration: none;
-      transition: 0.3s;
-    }
-
-    a:hover {
-      color: #ff00ff;
-      text-shadow: 0 0 15px #ff00ff;
+      text-shadow: 0 0 10px #00fff9;
+      margin-top: 20px;
     }
 
     ul {
@@ -56,37 +82,21 @@
     li::before {
       content: ">> ";
       color: #ff00ff;
-      text-shadow: 0 0 5px #ff00ff;
     }
 
-    .blinking-cursor {
-      font-weight: bold;
-      font-size: 22px;
+    a {
       color: #00fff9;
-      animation: blink 1s infinite;
+      text-decoration: none;
+      transition: 0.2s;
     }
 
-    @keyframes blink {
-      0%, 50% { opacity: 1; }
-      51%, 100% { opacity: 0; }
-    }
-
-    .intro {
-      font-size: 18px;
-      white-space: pre-line;
-      overflow: hidden;
-      border-right: .15em solid #00fff9;
-      width: 0;
-      animation: typing 3s steps(30, end) forwards, blink 1s infinite;
-    }
-
-    @keyframes typing {
-      from { width: 0 }
-      to { width: 100% }
+    a:hover {
+      color: #ff00ff;
+      text-shadow: 0 0 10px #ff00ff;
     }
 
     footer {
-      margin-top: 20px;
+      margin-top: 30px;
       text-align: center;
       font-size: 12px;
       color: #888;
@@ -94,13 +104,14 @@
   </style>
 </head>
 <body>
+  <!-- Matrix background -->
+  <canvas id="matrix"></canvas>
+
   <div class="terminal">
-    <h1 class="neon-text">[ Access Granted... Welcome Diablo ]<span class="blinking-cursor">█</span></h1>
-    <p class="intro">Initializing cyberpunk environment...  
-    Loading neon archives...  
-    Secure channel established.</p>
+    <h1>[ ACCESS GRANTED :: WELCOME DIABLO ]</h1>
+    <p class="intro">Initializing cyberpunk environment... Secure channel established.</p>
     <hr>
-    <h2 class="neon-text">CTF Writeups</h2>
+    <h2>CTF Writeups</h2>
     <ul>
       <li><a href="writeups/htb_machine1.html">HTB - Machine 1</a></li>
       <li><a href="writeups/pg_lab1.html">Proving Grounds - Lab 1</a></li>
@@ -108,8 +119,44 @@
     </ul>
     <hr>
     <footer>
-      &copy; 2025 Diablo | <span style="color:#00fff9;">Cyberpunk Hacker Log</span> | <span style="color:#ff00ff;">[Encrypted]</span>
+      &copy; 2025 Diablo | Cyberpunk Hacker Log | [Encrypted]
     </footer>
   </div>
+
+  <script>
+    // Matrix Background Effect
+    const canvas = document.getElementById("matrix");
+    const ctx = canvas.getContext("2d");
+
+    canvas.height = window.innerHeight;
+    canvas.width = window.innerWidth;
+
+    const letters = "アカサタナハマヤラワ0123456789$#*+";
+    const fontSize = 16;
+    const columns = canvas.width / fontSize;
+
+    const drops = [];
+    for(let x = 0; x < columns; x++) drops[x] = 1;
+
+    function draw() {
+      ctx.fillStyle = "rgba(0, 0, 0, 0.05)";
+      ctx.fillRect(0, 0, canvas.width, canvas.height);
+
+      ctx.fillStyle = "#00fff9";
+      ctx.font = fontSize + "px monospace";
+
+      for(let i = 0; i < drops.length; i++) {
+        const text = letters.charAt(Math.floor(Math.random() * letters.length));
+        ctx.fillText(text, i * fontSize, drops[i] * fontSize);
+
+        if(drops[i] * fontSize > canvas.height && Math.random() > 0.975) {
+          drops[i] = 0;
+        }
+        drops[i]++;
+      }
+    }
+
+    setInterval(draw, 35);
+  </script>
 </body>
 </html>
