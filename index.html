@@ -6,78 +6,101 @@
   <title>Diablo CTF Writeups</title>
   <style>
     body {
-      background-color: #000;
-      color: #00ff00;
+      margin: 0;
+      padding: 0;
+      background: radial-gradient(circle at center, #0a0a0a 0%, #000 100%);
+      color: #f0f0f0;
       font-family: "Courier New", monospace;
-      padding: 20px;
       overflow-x: hidden;
     }
+
     .terminal {
-      border: 2px solid #00ff00;
-      border-radius: 8px;
-      padding: 20px;
-      box-shadow: 0 0 25px #00ff00;
-      max-width: 800px;
-      margin: auto;
-      background: rgba(0, 0, 0, 0.85);
+      border: 2px solid #ff00ff;
+      border-radius: 10px;
+      padding: 25px;
+      box-shadow: 0 0 30px #ff00ff, 0 0 60px #00fff9;
+      max-width: 850px;
+      margin: 50px auto;
+      background: rgba(15, 15, 30, 0.9);
     }
+
     h1 {
-      color: #00ff00;
-      text-shadow: 0 0 10px #00ff00;
-      font-size: 28px;
+      font-size: 30px;
+      background: linear-gradient(90deg, #ff00ff, #00fff9);
+      -webkit-background-clip: text;
+      -webkit-text-fill-color: transparent;
+      text-shadow: 0 0 15px #ff00ff;
     }
+
+    .neon-text {
+      color: #ff00ff;
+      text-shadow: 0 0 10px #ff00ff, 0 0 20px #00fff9;
+    }
+
     a {
-      color: cyan;
+      color: #00fff9;
       text-decoration: none;
-      transition: 0.2s;
+      transition: 0.3s;
     }
+
     a:hover {
-      color: #ff0000;
-      text-shadow: 0 0 10px red;
+      color: #ff00ff;
+      text-shadow: 0 0 15px #ff00ff;
     }
-    .blinking-cursor {
-      font-weight: bold;
-      font-size: 22px;
-      color: #00ff00;
-      animation: blink 1s infinite;
-    }
-    @keyframes blink {
-      0%, 50% { opacity: 1; }
-      51%, 100% { opacity: 0; }
-    }
+
     ul {
       list-style: none;
       padding-left: 0;
     }
+
     li::before {
-      content: "> ";
-      color: #00ff00;
+      content: ">> ";
+      color: #ff00ff;
+      text-shadow: 0 0 5px #ff00ff;
     }
+
+    .blinking-cursor {
+      font-weight: bold;
+      font-size: 22px;
+      color: #00fff9;
+      animation: blink 1s infinite;
+    }
+
+    @keyframes blink {
+      0%, 50% { opacity: 1; }
+      51%, 100% { opacity: 0; }
+    }
+
     .intro {
+      font-size: 18px;
       white-space: pre-line;
       overflow: hidden;
-      border-right: .15em solid #00ff00;
+      border-right: .15em solid #00fff9;
       width: 0;
       animation: typing 3s steps(30, end) forwards, blink 1s infinite;
     }
+
     @keyframes typing {
       from { width: 0 }
       to { width: 100% }
     }
+
     footer {
       margin-top: 20px;
       text-align: center;
       font-size: 12px;
-      color: #555;
+      color: #888;
     }
   </style>
 </head>
 <body>
   <div class="terminal">
-    <h1 class="intro">Access Granted... Welcome Diablo<span class="blinking-cursor">█</span></h1>
-    <p>Loading secure archive of CTF writeups...</p>
+    <h1 class="neon-text">[ Access Granted... Welcome Diablo ]<span class="blinking-cursor">█</span></h1>
+    <p class="intro">Initializing cyberpunk environment...  
+    Loading neon archives...  
+    Secure channel established.</p>
     <hr>
-    <h2>Writeups</h2>
+    <h2 class="neon-text">CTF Writeups</h2>
     <ul>
       <li><a href="writeups/htb_machine1.html">HTB - Machine 1</a></li>
       <li><a href="writeups/pg_lab1.html">Proving Grounds - Lab 1</a></li>
@@ -85,7 +108,7 @@
     </ul>
     <hr>
     <footer>
-      &copy; 2025 Diablo | Hacker’s Notebook | <span style="color: red;">[Encrypted]</span>
+      &copy; 2025 Diablo | <span style="color:#00fff9;">Cyberpunk Hacker Log</span> | <span style="color:#ff00ff;">[Encrypted]</span>
     </footer>
   </div>
 </body>
